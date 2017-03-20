@@ -8,7 +8,8 @@
     
     1. require查找的路径
 
-        如果require的模块id不是node的核心模块，那么模块的路径不以路径开始，则node会不断去上一级递归查找node_modules目录，如果module.paths数组里的路径都找完没有找到模块，就抛出错误
+        核心模块 ===> node_modules ===> 文件模块，
+        如果查找的是node_modules，那么查找路径就是不断是找上一级的node_modules目录，查找的路径可以在module.paths数组中找到，如果没找到就抛出错误
         ```
         [ '/Users/gqc/code/pure-node-notebook/node_modules',
         '/Users/gqc/code/node_modules',
@@ -48,3 +49,26 @@
         2. 重启浏览器
         3. 控制台打开设置
         4. experiments中按6下shift，勾选node debugging
+    4. 如果requrie的是json，在输出的时候会自动对文件JSON.parse，如果希望返回的还是JSON文件，就需要JSON.stringify
+
+        ```
+        http.createServer((request, response) => {
+            const fielPackage = require('./package') // get package.json
+            console.log(typeof file) //object
+            const fileJson = JSON.stringify(filePackage)
+            console.log(typeof fileJson) // string
+            response.end(fileJson)
+        })
+        ```
+    5. require一个文件夹，会去找文件夹下的index.js
+
+        ```
+        // app是一个文件夹，app下有index.js，下面的require就会默认拿到index.js的内容
+        const App = require('./app')
+        // 相当于
+        const App = require('./app/index.js')
+        ```
+    5. 持续构建 ===> nodemon代替node命令持续构建
+    6. fs
+
+        1. Node中的异步操作，最后一个参数都是一个回调函数， 回调函数的第一个参数都是error，如果没有就是null
