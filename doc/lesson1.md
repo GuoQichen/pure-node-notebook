@@ -27,9 +27,9 @@
     4. node在初始化一个脚本的时候，都会在头尾包裹一些内容
         
         ```
-        function(exports, require, modules) {
+        (function(exports, require, modules, __filename, __dirname) {
             // 
-        }
+        })
         ```
 3. CommonJS规范, 愿景是希望js能在任何地方运行
 
@@ -68,7 +68,24 @@
         // 相当于
         const App = require('./app/index.js')
         ```
-    5. 持续构建 ===> nodemon代替node命令持续构建
-    6. fs
+5. 持续构建 ===> nodemon代替node命令持续构建
+6. fs
 
-        1. Node中的异步操作，最后一个参数都是一个回调函数， 回调函数的第一个参数都是error，如果没有就是null
+    1. Node中的异步操作，最后一个参数都是一个回调函数， 回调函数的第一个参数都是error，如果没有就是null
+    2. readFile的第一个参数相对的是node进程的启动目录，**注意**，不是相对当前目录，是node进程的启动目录
+
+        ```
+        // 当前目录 app/index.js
+        http.createServer((request, response) => {
+            // 这边相对路径相对的是process.cwd()，cwd ===> curren work dirctory ===> node进程的启动目录
+            fs.readFile('./public/index.html', (error, data) => {
+                response.end(data)
+            }) 
+        })
+        ```
+7. 高阶函数
+
+    ```
+    const foo = (a) => (b) => (c) => a*b*c
+    foo(1)(2)(3) // 6
+    ```
