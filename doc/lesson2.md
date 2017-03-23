@@ -39,3 +39,13 @@
                 console.log(error.stack)
             }
             ```
+
+### static web server
+1. 因为`fs.readFile`接受的文件夹路径，其实是基于`process.cwd()`，所以`fs.readyFile`的路径可以使用`path.resolve(process.cwd(), 'public')`拼接而成，然后把结果放进`fs.readFile`
+2. 注意，`path.resolve()`是从右往左解析，遇到一个绝对路径就直接返回不再解析后面的路径
+3. 程序设计的原则 ===> DRY ===> Don't Repeat Yourself
+4. 如果`fs.readFile`的目标文件是图片，那么`response.end`的encoding和decoding必须一样，都是binary，或者不指定由node自己去解析
+5. `fs.readFileSync('./avatar.jpeg', 'base64')`可以把图片转化成base64
+6. response对象继承了stream
+7. `response.end`默认是utf8，`response.end('helo world', 'utf8')`
+8. Error, ENOENT, 表示 error no entry, 找不到这个文件
