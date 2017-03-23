@@ -18,3 +18,24 @@
 1. posix概念
 
     表示可移植操作系统的借口，node在系统的API之上，例如fs.lstat ===> ls
+
+### fs模块
+1. 常用方法
+
+    - `fs.readFile()`
+        
+        1. 第一个参数接受一个相当`process.cwd()`的参数，
+        2. 第二个参数，可以选择读文件的编码方式，例如'utf8'，'binary'
+        3. 因为readFile是异步I/O，所以会有一个callback（node中异步I／O方法的最后一个参数都是回调函数），callback的第一个参数保留给error
+    - `fs.readFileSync()`
+
+        1. 异步方法的同步方式，在方法名后面添加Sync
+        2. 如果过程中需要处理错误，需要使用try...catch
+
+            ```
+            try {
+                fs.readFileSync()
+            } catch(error) {
+                console.log(error.stack)
+            }
+            ```
