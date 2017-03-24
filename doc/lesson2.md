@@ -49,3 +49,28 @@
 6. response对象继承了stream
 7. `response.end`默认是utf8，`response.end('helo world', 'utf8')`
 8. Error, ENOENT, 表示 error no entry, 找不到这个文件
+9. 同步代码和异步代码捕获错误的方式
+
+    ```
+    // 同步
+    try {
+        //...
+    } catch(error) {
+        conols.log(error) // handle error
+    }
+    // 异步
+    fs.readFile('./public/css/index.css', (error, data) => {
+        console.log(error)
+    })
+    ```
+10. 异步代码的错误无法被try...catch捕获，因为当前call stack中的代码已经执行完了，没有发现错误，而异步回调还没被触发
+
+    ```
+    try {
+        setTimeout(() => {
+            throw new Error('error')
+        }, 0)
+    } catch(error) {
+        console.log(error.stack)
+    }
+    ```
