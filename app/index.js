@@ -1,5 +1,4 @@
-const fs = require('fs')
-
+const staticServerAsync = require('./static-server')
 class App {
     constructor() {
 
@@ -9,7 +8,12 @@ class App {
         
 
         return (request, response) => {
-            response.end('hello world')
+            const { url } = request
+            staticServerAsync(url).then(data => {
+                response.end(data)
+            }).catch(error => {
+                console.log(error)
+            })
         }
     }
 }
