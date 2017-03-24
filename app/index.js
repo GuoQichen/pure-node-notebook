@@ -1,8 +1,4 @@
-const fs = require('fs')
-const path = require('path')
-
-const STATIC = 'public'
-
+const staticServerAsync = require('./static-server')
 class App {
     constructor() {
 
@@ -13,25 +9,11 @@ class App {
 
         return (request, response) => {
             const { url } = request
-
-            const getUrl = url => { 
-                const staticPrex = path.resolve(process.cwd(), STATIC)
-                if(url === '/') url = '/index.html'    
-                return path.resolve(staticPrex, `.${url}`)
-            }
-            
-            const _path = getUrl(url)
-            fs.readFile(_path, (error, data) => {
-                if(error) data = 'sorry, NOT FOUND'
+            staticServerAsync(url).then(data => {
                 response.end(data)
+            }).catch(error => {
+                console.log(error)
             })
-            // const mapUrlToFile = {
-            //     '/': 'public/index.html',
-            //     '/css/index.css': 'public/css/index.css',
-            //     '/js/index.js': 'public/js/index.js'
-            // }
-
-            // const url = mapUrlToFile[request.url] || ''
         }
     }
 }
