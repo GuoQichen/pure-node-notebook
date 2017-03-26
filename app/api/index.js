@@ -1,14 +1,23 @@
 /**
- * api server
+ * @author AckyGuo
+ * apiServerAsync
  */
 
-module.exports = url => {
+const mapUrlToRegExp = require('../utils/mapRegExp')
+
+const apiServerAsync = url => {
+    if(!mapUrlToRegExp('api').test(url)) return Promise.resolve(url)
+
+    const header = {
+        'Content-Type': 'application/json'
+    }
 
     const apiMapToSolution = {
         '/list.action': ['a', 'b', 'c'],
         '/user.action': ['guoqichen', 'man', 'chinese']
     }
 
-    // return  apiMapToSolution[url]
-    return Promise.resolve(apiMapToSolution[url])
+    return Promise.resolve({ data: JSON.stringify(apiMapToSolution[url]), header })    
 }
+
+module.exports = apiServerAsync
