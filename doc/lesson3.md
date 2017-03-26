@@ -1,15 +1,13 @@
 ## lesson3
 ### api服务（ajax服务）
 1. ajax请求和普通的http请求没有区别
-2. header多了`x-requested-with: 'XMLHttpRequest'`
-3. 服务端区别ajax请求，作出特殊处理
-4. 数据交换格式，response.end中希望得到的是string或者buffer，但是前端希望拿到的是对象或者数组等数据结构
+2. header多了`x-requested-with: 'XMLHttpRequest'`，但是没有影响
+3. 服务端区别ajax请求，作出特殊处理，返回JSON数据
+4. 数据交换格式，response.end中希望得到的是string或者buffer，但是前端希望拿到的是对象或者数组等数据结构，如果每次前端拿到JSON数据都需要去JSON.parse太麻烦了，所以后端处理ajax请求的时候可以在header指定`Content-Type: application/json`
 
 ### promise
 1. Promise是一个构造函数 ===>  Promise.prototype ===> 原型上的方法then, catch ===> statci method  ===> Promise.all, Promise.race, Promise.resolve, Promise.reject
-2. 研究promise
-
-    1. new Promise ===> 函数接受的参数 
+2. 研究promise，基本的研究路线就是构造函数，然后研究原型上的方法，然后研究静态方法，函数的研究基本从两个方面来研究，接受的参数和返回的结果
 3. Promise的状态
 
     - pending
@@ -27,8 +25,8 @@
 
     ```
     const p = Promise.resolve({
-        then: (resolve, reject) => {
-            resolve(2)
+        then: (onFulfilled, onRejected) => {
+            onFulfilled(2)
         }
     })
     p.then(val => {
