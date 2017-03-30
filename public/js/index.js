@@ -14,4 +14,17 @@ window.onload = () => {
     }).fail(error => {
         console.log(error)
     })
+    // post
+
+    $.ajax({
+        url: '/list.action',
+        method: 'post',
+        data: {
+            name: 'acky',
+            gender: 'man',
+            age: '18'
+        }
+    }).done(data => {
+        $('body').append(data)             
+    })
 }
