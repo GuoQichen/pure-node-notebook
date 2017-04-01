@@ -28,7 +28,7 @@
 2. nodejs和python中常用`_`来表示私有方法
 3. 在request中查看原型链
 
-    原型链： readable ===> stream ===> EventEmitter
+    原型链： IncomingMessage ===> Readable ===> Stream ===> EventEmitter ===> Object
 4. node中的API设计也是链式API
 
     ```
@@ -36,11 +36,11 @@
         //...
     }).on('end', () => { })
     ```
-5. socket中文解释为管道
+5. socket中文解释为管道（？）
 
     B(post) ==socket== S (BS架构)
     
-    前端通过管道把数据流向服务端，服务端监听事件处理
+    当有客户端发起post请求的时候，客户端和服务端通过socket进行链接，客户端通过管道把数据流向服务端，服务端监听事件处理，假如此时的`request.on`加上了setTimeout，会怎么样，其实数据早就通过stream过来了，但是stream存在两种状态，一种是paused，一种是flow，在`request.on`之前的数据都是paused，保存在buffer中，只有当`request.on`之后，stream才变成flow，然后才从buffer中取出来
 6. stream 有两种
 
     1. paused 死的
