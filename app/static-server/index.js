@@ -10,9 +10,9 @@ const STATIC = 'public'
 
 const mapUrlToRegExp = require('../utils/mapRegExp')
 
-const staticServerAsync = url => {  
-
-    if(!mapUrlToRegExp('static').test(url)) return Promise.resolve(url)
+const staticServerAsync = request => {  
+    const { url, context } = request
+    if(!mapUrlToRegExp('static').test(url)) return request
 
     const getUrl = url => { 
         const staticPrex = path.resolve(process.cwd(), STATIC)
@@ -23,7 +23,8 @@ const staticServerAsync = url => {
     return new Promise((resolve, reject) => {
         fs.readFile(getUrl(url), (error, data) => {
             if(error) reject(error)
-            resolve({ data })
+            context.body = data
+            resolve(request)
         })        
     })
 }
