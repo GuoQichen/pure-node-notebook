@@ -5,19 +5,19 @@
 
 // request: query + body + method
 
-module.exports = (request) => {
-    const { url, method } = request 
+module.exports = request => {
+    const { context } = request
 
     return Promise.resolve({
         then(onFulfilled, onRejected) {
-
-            if(method === 'POST') {
+            if(context.method === 'post') {
                 let data = ''
                 setTimeout(() => {
                     request.on('data', chunk => {
                         data += chunk
                     }).on('end', () => {
-                        onFulfilled({ data })
+                        context.body = data
+                        onFulfilled(request)
                     })
                 }, 1000)
             } else {

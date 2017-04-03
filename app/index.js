@@ -1,6 +1,7 @@
 const staticServerAsync = require('./static-server')
 const apiServer = require('./api')
 const urlParser = require('./url-parser')
+const querystring = require('querystring')
 class App {
     constructor() {
 
@@ -8,9 +9,17 @@ class App {
 
     initServer() {
         return (request, response) => {
-            const resFunc = ({ data, header = {} }) => {
+            request.context = {
+                method: request.method.toLowerCase(),
+                query: querystring.parse(request.query),
+                header: {},
+                body: '',
+            }
+
+            const resFunc = () => {
+                const { body, header } = request.context
                 response.writeHead(200, 'ok', Object.assign(header, { 'X-powered-by': 'Node' }))
-                response.end(data)
+                response.end(body)
             }
 
             const handleError = error => console.log(error)
