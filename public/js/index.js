@@ -19,12 +19,11 @@ window.onload = () => {
     $.ajax({
         url: '/list.action',
         method: 'post',
-        data: {
-            name: 'acky',
-            gender: 'man',
-            age: '18'
-        }
+        contentType: 'application/json',
+        dataType: 'json',
+        data:JSON.stringify(['d', 'e', 'f'])
     }).done(data => {
-        $('body').append(data)             
+        const list = data.map(ele => `<li>${ele}</li>`)
+        $('body').append(list)             
     })
 }

@@ -1,5 +1,6 @@
 const staticServerAsync = require('./static-server')
 const apiServer = require('./api')
+const urlParser = require('./url-parser')
 class App {
     constructor() {
 
@@ -14,7 +15,8 @@ class App {
 
             const handleError = error => console.log(error)
 
-            staticServerAsync(request)
+            urlParser(request)
+                .then(staticServerAsync)
                 .then(apiServer)
                 .then(resFunc)
                 .catch(handleError)
