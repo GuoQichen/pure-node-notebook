@@ -1,28 +1,22 @@
 /**
  * url-parser
- * 处理客户端数据
+ * 处理客户端post请求的数据
  */
 
-// request: query + body + method
-
-module.exports = request => {
-    const { context } = request
-
+module.exports = context => {
+    const { request, requestCtx } = context
+    
     return Promise.resolve({
-        then(onFulfilled, onRejected) {
-            if(context.method === 'post') {
-                let data = ''
-                setTimeout(() => {
-                    request.on('data', chunk => {
-                        data += chunk
-                    }).on('end', () => {
-                        context.body = data
-                        onFulfilled(request)
-                    })
-                }, 1000)
-            } else {
-                onFulfilled(request)
-            }
-        }
+        then(next) {
+            if(requestCtx.method !== 'post') return next()
+
+            let data = ''
+            request.on('data', chunk => {
+                data += chunk
+            }).on('end', () => {
+                requestCtx.body = data
+                next()
+            })
+    }
     })
 }
