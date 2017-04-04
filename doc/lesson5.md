@@ -31,3 +31,39 @@
     1. 每个中间件只需要修改context对象，彼此独立
     2. 使用use和compose来创建promise链
     3. 开发者只需要专注中间件的开发
+
+#### Buffer
+1. Buffer的场景
+
+    1. 网络I／O中，TCP／IP协议中使用数据包传递数据，数据包的数据类型使用Buffer
+    2. fs，操作本地文件使用buffer
+1. 重点要掌握的方法，`Buffer.from`，`Buffer.isBuffer`，`Buffer.isEncoding`，`Buffer.concat`
+2. Buffer和字符串之间的转换
+
+    1. `const buf = Buffer.from('hello world', 'utf8')`可以把字符串转化成buffer
+    2. `buf.toString()`可以把buffer转化成字符串
+3. 汉字转码 ===> utf8（可变长度字符编码） ===> 一个汉字右多位buffer来表示，例如：
+
+    1. 窗，使用buffer表示就是`<Buffer e7 aa 97>`
+4. `Buffer.concat(list[, totalLength])`，最好手动指定`totalLength`，避免额外的计算，速度更快
+
+    ```
+    const buf1 = Buffer.from([0xe7])
+    const buf2 = Buffer.from([0xaa])
+    const buf3 = Buffer.from([0x97])
+    assert.equal(Buffer.concat([buf1, buf2, buf3], 3).toString(), '窗')
+    ```
+5. 字符串丢失（Buffer的应用场景）===> stream读取字节丢失，不过Node已经做了兼容
+
+    ```
+    const data = fs.createReadStream('./test/tem', {
+        highWaterMark: 1
+    })
+    const out = []
+    data.on('data', chunk => {
+        out.push(chunk)
+    }).on('end', () => {
+        const length = out.length
+        console.log(Buffer.concat(out, length).toString())
+    })
+    ```
