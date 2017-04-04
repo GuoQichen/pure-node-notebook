@@ -4,30 +4,38 @@ const urlParser = require('./url-parser')
 const querystring = require('querystring')
 class App {
     constructor() {
+        this.middleWareList = []
+    }
 
+    use(middleWare) {
+        this.middleWareList.push(middleWare)
+    }
+
+    composeMiddleware(context) {
+        return this.middleWareList.reduce((chain, middleWare) => chain.then((...arg) => {
+            return middleWare(context, ...arg)
+        }), Promise.resolve())
     }
 
     initServer() {
         return (request, response) => {
-            request.context = {
-                method: request.method.toLowerCase(),
-                query: querystring.parse(request.query),
-                header: {},
-                body: '',
+            const context = {
+                request,
+                response,
+                requestCtx: {
+                    method: request.method.toLowerCase(),
+                    query: querystring.parse(request.query),
+                    body: ''
+                },
+                responseCtx: {
+                    headers: {},
+                    body: ''
+                }
             }
 
-            const resFunc = () => {
-                const { body, header } = request.context
-                response.writeHead(200, 'ok', Object.assign(header, { 'X-powered-by': 'Node' }))
-                response.end(body)
-            }
+            const handleError = (error) => console.log(error)
 
-            const handleError = error => console.log(error)
-
-            urlParser(request)
-                .then(staticServerAsync)
-                .then(apiServer)
-                .then(resFunc)
+            this.composeMiddleware(context)
                 .catch(handleError)
         }
     }
