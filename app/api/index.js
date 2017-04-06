@@ -4,7 +4,6 @@
  */
 
 const querystring = require('querystring')
-const mapUrlToRegExp = require('../utils/mapRegExp')
 
 const apiServerAsync = (context) => {
     const { request, responseCtx } = context
@@ -20,7 +19,7 @@ const apiServerAsync = (context) => {
 
     return Promise.resolve({
         then(next) {
-            if(!mapUrlToRegExp('api').test(url)) return next()
+            if(!/action$/.test(url)) return next()
             responseCtx.body = JSON.stringify(apiMapToSolution[url])
             responseCtx.headers = Object.assign(responseCtx.headers, headers)
             next()

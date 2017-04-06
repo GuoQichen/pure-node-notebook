@@ -10,11 +10,11 @@ module.exports = context => {
         then(next) {
             if(requestCtx.method !== 'post') return next()
 
-            let data = ''
+            let data = []
             request.on('data', chunk => {
-                data += chunk
+                data.push(chunk)
             }).on('end', () => {
-                requestCtx.body = data
+                requestCtx.body = Buffer.concat(data).toString()
                 next()
             })
     }
