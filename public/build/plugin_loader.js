@@ -1,9 +1,9 @@
 // webpack 插件配置
-const path = require('path'),
-    webpack = require("webpack"),
-    CopyWebpackPlugin = require('copy-webpack-plugin'),
-    ExtractTextPlugin = require("extract-text-webpack-plugin"),
-    WebpackNotifierPlugin = require('webpack-notifier');
+const path = require('path')
+const webpack = require("webpack")
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const ExtractTextPlugin = require("extract-text-webpack-plugin")
+const WebpackNotifierPlugin = require('webpack-notifier')
 
 exports.plugins =[
             new webpack.ProvidePlugin({

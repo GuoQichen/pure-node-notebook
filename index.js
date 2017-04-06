@@ -14,8 +14,8 @@ const server = new App()
 server.use(urlParser)
 server.use(apiServer)
 server.use(staticServer)
-server.use(handleResponse)
 server.use(viewServer)
+server.use(handleResponse)
 
 http.createServer(server.initServer()).listen(PORT, () => {
     console.log(`listen in ${PORT}`)
