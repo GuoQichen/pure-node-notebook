@@ -26,6 +26,5 @@
     //     const list = data.map(ele => `<li>${ele}</li>`)
     //     $('body').append(list)             
     // })
-    document.write('hello')
     console.log('hello ok?')
 // }
