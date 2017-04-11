@@ -20,7 +20,7 @@ const staticServerAsync = context => {
 
     return Promise.resolve({
         then(next, onRejected) {
-            if(!/(\.css|\.js)$/.test(url)) return next()
+            if(!/(\.css|\.less|\.js)$/.test(url)) return next()
 
             fs.readFile(getUrl(url), (error, data) => {
                 if(error) onRejected(error)

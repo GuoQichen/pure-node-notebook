@@ -17,6 +17,7 @@ module.exports =  {
         watch: true,
         entry: {
             index:'./js/index.js',
+            style: './css/index.less',
             common: [
                 'jquery',
                 "reset"
