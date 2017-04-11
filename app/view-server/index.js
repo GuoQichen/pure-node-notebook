@@ -37,7 +37,8 @@ module.exports = context => {
             })
 
             responseCtx.body = render({
-                templateName: ejsName
+                templateName: ejsName,
+                title: 'Guoqichen\'s world'
             })
             responseCtx.headers = Object.assign(responseCtx.headers, {
                 'Content-Type':  'text/html'
