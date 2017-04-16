@@ -33,12 +33,14 @@ module.exports = context => {
             const layoutHtml = fs.readFileSync(layoutPath, 'utf8')
 
             const render = ejs.compile(layoutHtml, {
-                filename: layoutPath
+                filename: layoutPath,
+                compileDebug: true,
             })
 
             responseCtx.body = render({
                 templateName: ejsName,
-                title: 'Guoqichen\'s world'
+                title: 'Guoqichen\'s world',
+                hasUser: responseCtx.hasUser
             })
             responseCtx.headers = Object.assign(responseCtx.headers, {
                 'Content-Type':  'text/html'
