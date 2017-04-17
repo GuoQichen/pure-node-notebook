@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		fetch('https://movie.douban.com/j/search_subjects?type=movie&tag=%E7%83%AD%E9%97%A8&sort=recommend&page_limit=40&page_start=40').then(data => {
+			data.text().then(data => {
+				const ul = document.createElement('ul')
+				JSON.parse(data).forEach(({ title }) => {
+					const li = document.createElement('li')
+					li.innerHTML = title
+					ur.appendChild(li)
+				})
+				document.querySelector('body').appendChild(ul)
+			})
+		}).catch(error => {
+			console.log(error)
+		})
+	</script>
+</body>
+</html>
