@@ -28,6 +28,9 @@ class App {
                     body: ''
                 },
                 responseCtx: {
+                    hasUser: false,
+                    statusMessage: 'resolved ok',
+                    statusCode: 200,
                     headers: {},
                     body: ''
                 }

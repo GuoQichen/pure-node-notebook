@@ -1,0 +1,13 @@
+<div class="page-header-wrapper">
+    <section class="page-header">
+        <div class="title-name"><%= title %></div>
+        <ul class="header-item-list">
+            <li><a class="header-item" href="/index">首页</a></li>
+            <li><a class="header-item" href="/list">文章</a></li>
+            <% if(hasUser) { %>
+            <li><a class="header-item" href="/write">写作</a></li>
+            <% } %>
+            <li><a class="header-item" href="/about">关于</a></li>
+        </ul>
+    </section>
+</div>
