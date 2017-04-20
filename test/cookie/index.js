@@ -1,5 +1,5 @@
 const fs = require('fs')
-const data = require('./getData.js')
+const request = require('superagent') 
 const http = require('http')
 const PORT = 8080
 
@@ -11,6 +11,23 @@ const parseCookie = cookie => {
 		result[cookiePair[0]] = cookiePair[1]
 		return result
 	}, {})
+}
+
+const getDataAsync = () => {
+	return Promise.resolve({ then(next) {
+		request
+			.get('https://movie.douban.com/j/search_subjects')
+			.query({ type: 'movie' })
+			.query({ tag: '热门' })
+			.query({ sort: 'recommend' })
+			.query({ page_limit: 40 })
+			.query({ page_start: 0 })
+			.end((error, data) => {
+				if(error) return console.log(error)
+				next(data.text)
+			})	
+	}})
+
 }
 
 const setCookie = (req, res) => {
@@ -25,7 +42,10 @@ const setCookie = (req, res) => {
 		res.setHeader('Set-Cookie', `auth=true;${cookieAge(0)}`)
 	}
 	if(cookieObj.auth) {
-		res.end(data)
+		getDataAsync()
+			.then((data) => {
+				res.end(data)
+			})
 	} else {
 		res.end('hello please sign up')
 	}

@@ -13,7 +13,9 @@ request
 	.end((error, data) => {
 		if(error) return console.log(error)
 		result = data.text
+		console.log(result)
 	})
 
-
+	
 module.exports = result
+
