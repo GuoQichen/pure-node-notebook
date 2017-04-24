@@ -36,7 +36,7 @@ const setCookie = (req, res) => {
 	const cookieObj = parseCookie(cookie)
 	const cookieAge = (time) => `Max-Age=${time}`
 	if(url === '/name_guoqichen') {
-		res.setHeader('Set-Cookie', `auth=true;${cookieAge(60*5)}`)
+		res.setHeader('Set-Cookie', [`auth=true;${cookieAge(60*5)}`, 'user=guoqichen'])
 	}
 	if(url === '/logout') {
 		res.setHeader('Set-Cookie', `auth=true;${cookieAge(0)}`)
